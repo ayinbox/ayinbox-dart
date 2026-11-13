@@ -175,10 +175,10 @@ print(event['event_type']);
 
 ## Examples
 
-- [`examples/list_campaigns.dart`](examples/list_campaigns.dart): list every campaign.
-- [`examples/verify_webhook.dart`](examples/verify_webhook.dart): verify a webhook delivery.
+- [`example/list_campaigns.dart`](example/list_campaigns.dart): list every campaign.
+- [`example/verify_webhook.dart`](example/verify_webhook.dart): verify a webhook delivery.
 
-Run one with `AYINBOX_API_KEY=aybox_... dart run examples/list_campaigns.dart`.
+Run one with `AYINBOX_API_KEY=aybox_... dart run example/list_campaigns.dart`.
 
 ## Documentation
 
