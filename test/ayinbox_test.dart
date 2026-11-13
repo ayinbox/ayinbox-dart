@@ -68,9 +68,11 @@ void main() {
     });
 
     test('never shows the key in toString', () {
-      final api = AyInbox(apiKey: testKey, httpClient: MockClient((_) async {
-        return http.Response('{}', 200);
-      }));
+      final api = AyInbox(
+          apiKey: testKey,
+          httpClient: MockClient((_) async {
+            return http.Response('{}', 200);
+          }));
       expect(api.toString(), isNot(contains(testKey)));
       expect(api.baseUrl, AyInbox.defaultBaseUrl);
     });
@@ -180,8 +182,7 @@ void main() {
       final rec = Recorder();
       final api = clientFor(
           rec, (r, _) async => errorFixture('422_unprocessable.json', 422));
-      await expectLater(
-          api.me.get(), throwsA(isA<ValidationException>()));
+      await expectLater(api.me.get(), throwsA(isA<ValidationException>()));
     });
 
     test('429 from the per-key limiter carries retry_after', () async {
@@ -202,10 +203,8 @@ void main() {
 
     test('429 without code or request_id still maps', () async {
       final rec = Recorder();
-      final api = clientFor(
-          rec,
-          (r, _) async =>
-              errorFixture('429_category_rate_limited.json', 429),
+      final api = clientFor(rec,
+          (r, _) async => errorFixture('429_category_rate_limited.json', 429),
           maxRetries: 0);
       try {
         await api.me.get();
@@ -238,8 +237,7 @@ void main() {
       final api = clientFor(
           rec, (r, _) async => throw http.ClientException('connection reset'),
           maxRetries: 0);
-      await expectLater(
-          api.me.get(), throwsA(isA<ConnectionException>()));
+      await expectLater(api.me.get(), throwsA(isA<ConnectionException>()));
     });
   });
 
@@ -307,7 +305,9 @@ void main() {
           options: const RequestOptions(idempotencyKey: 'create-q4'));
       expect(campaign.name, 'Q4 outreach');
       expect(rec.requests, hasLength(2));
-      expect(rec.requests.every((r) => r.headers['idempotency-key'] == 'create-q4'),
+      expect(
+          rec.requests
+              .every((r) => r.headers['idempotency-key'] == 'create-q4'),
           isTrue);
     });
 
@@ -315,8 +315,7 @@ void main() {
       final rec = Recorder();
       final api = clientFor(
           rec, (r, _) async => errorFixture('500_internal_error.json', 500));
-      await expectLater(
-          api.me.get(), throwsA(isA<InternalServerException>()));
+      await expectLater(api.me.get(), throwsA(isA<InternalServerException>()));
       expect(rec.requests, hasLength(1));
     });
   });
@@ -339,7 +338,8 @@ void main() {
         '11111111-1111-4111-8111-333333333333',
       ]);
       expect(rec.requests, hasLength(2));
-      expect(rec.requests.every((r) => r.url.queryParameters['status'] == 'draft'),
+      expect(
+          rec.requests.every((r) => r.url.queryParameters['status'] == 'draft'),
           isTrue);
     });
 
@@ -357,10 +357,8 @@ void main() {
     test('generic paginate resends the search body', () async {
       final rec = Recorder();
       final api = clientFor(rec, (r, _) async => ok('contacts_list.json'));
-      final rows = await api
-          .paginate('/contacts/search',
-              method: 'POST', body: {'query': 'example'})
-          .toList();
+      final rows = await api.paginate('/contacts/search',
+          method: 'POST', body: {'query': 'example'}).toList();
       expect(rows, hasLength(2));
       expect(jsonDecode(rec.requests.single.body), {'query': 'example'});
     });
@@ -419,8 +417,8 @@ void main() {
         final rows = jsonDecode(fixture('contacts_create.json')) as List;
         return http.Response(jsonEncode(rows.first), 200, headers: jsonHeaders);
       });
-      final contact =
-          await api.contacts.update(contactId, {'company': 'New Co', 'phone': null});
+      final contact = await api.contacts
+          .update(contactId, {'company': 'New Co', 'phone': null});
       expect(contact.id, contactId);
       expect(rec.requests.single.method, 'PATCH');
       expect(jsonDecode(rec.requests.single.body),
@@ -465,11 +463,11 @@ void main() {
     test('request reaches any route', () async {
       final rec = Recorder();
       final api = clientFor(rec, (r, _) async => ok('campaign.json'));
-      final body = await api.request('GET', '/campaigns-overview',
-          query: {'x': 1});
+      final body =
+          await api.request('GET', '/campaigns-overview', query: {'x': 1});
       expect(body, isA<Map>());
-      expect(rec.requests.single.url.toString(),
-          '$base/campaigns-overview?x=1');
+      expect(
+          rec.requests.single.url.toString(), '$base/campaigns-overview?x=1');
     });
   });
 

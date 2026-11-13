@@ -47,8 +47,7 @@ class Webhooks {
       return false;
     }
 
-    final nowSeconds =
-        (now ?? DateTime.now()).millisecondsSinceEpoch ~/ 1000;
+    final nowSeconds = (now ?? DateTime.now()).millisecondsSinceEpoch ~/ 1000;
     if ((nowSeconds - timestamp).abs() > toleranceSeconds) {
       return false;
     }
@@ -82,8 +81,7 @@ class Webhooks {
         secret: secret,
         toleranceSeconds: toleranceSeconds,
         now: now)) {
-      throw SignatureVerificationException(
-          'Webhook signature did not verify.');
+      throw SignatureVerificationException('Webhook signature did not verify.');
     }
     final text =
         payload is String ? payload : utf8.decode(payload as List<int>);

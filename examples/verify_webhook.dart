@@ -4,7 +4,8 @@ import 'package:ayinbox/ayinbox.dart';
 
 void main(List<String> args) {
   if (args.length != 3) {
-    print('usage: dart run examples/verify_webhook.dart <body> <header> <secret>');
+    print(
+        'usage: dart run examples/verify_webhook.dart <body> <header> <secret>');
     return;
   }
   const webhooks = Webhooks();

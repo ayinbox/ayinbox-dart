@@ -171,7 +171,9 @@ class Page<T> {
     final pagination = _map(json['pagination']);
     final cursor = _string(pagination['next_cursor']);
     return Page<T>(
-      data: data is List ? data.whereType<Map>().map(_map).map(item).toList() : [],
+      data: data is List
+          ? data.whereType<Map>().map(_map).map(item).toList()
+          : [],
       nextCursor: cursor == null || cursor.isEmpty ? null : cursor,
       hasMore: _bool(pagination['has_more']) ?? false,
       total: _int(pagination['total']),
