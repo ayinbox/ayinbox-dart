@@ -1,0 +1,25 @@
+name: ayinbox
+description: >-
+  Official Dart client for the AY Inbox REST API: campaigns, contacts,
+  mailboxes, the Unibox, typed errors, retries, pagination and webhook
+  signature verification.
+version: 0.1.0
+homepage: https://docs.ayinbox.com/api/
+repository: https://github.com/ayinbox/ayinbox-dart
+issue_tracker: https://github.com/ayinbox/ayinbox-dart/issues
+documentation: https://docs.ayinbox.com/api/
+topics:
+  - email
+  - api
+  - sdk
+
+environment:
+  sdk: ">=3.3.0 <4.0.0"
+
+dependencies:
+  crypto: ^3.0.3
+  http: ^1.2.0
+
+dev_dependencies:
+  lints: ^4.0.0
+  test: ^1.25.0
